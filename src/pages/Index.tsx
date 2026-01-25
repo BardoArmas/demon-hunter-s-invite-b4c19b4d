@@ -125,8 +125,14 @@ const Index = () => {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center max-h-screen overflow-y-auto py-8 w-full pointer-events-none">
-        <PartyCard isVisible={isOpen} onClose={handleClose} />
+      <div 
+        className={`relative z-10 flex flex-col items-center max-h-screen overflow-y-auto w-full transition-all duration-300 ${
+          isOpen ? 'pointer-events-auto' : 'pointer-events-none'
+        }`}
+      >
+        <div className="w-full py-8 pb-40">
+          <PartyCard isVisible={isOpen} onClose={handleClose} />
+        </div>
       </div>
 
       {/* Ambient particles */}
