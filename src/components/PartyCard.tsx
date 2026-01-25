@@ -1,8 +1,9 @@
 interface PartyCardProps {
   isVisible: boolean;
+  onClose: () => void;
 }
 
-export const PartyCard = ({ isVisible }: PartyCardProps) => {
+export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
   if (!isVisible) return null;
 
   return (
@@ -15,6 +16,21 @@ export const PartyCard = ({ isVisible }: PartyCardProps) => {
           boxShadow: '0 0 40px rgba(255, 0, 204, 0.4), 0 0 80px rgba(0, 255, 255, 0.2), inset 0 0 60px rgba(0, 0, 0, 0.4)',
         }}
       >
+        {/* Close button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 z-20"
+          style={{
+            background: 'linear-gradient(135deg, #ff1493, #ff00cc)',
+            boxShadow: '0 0 15px rgba(255, 0, 204, 0.6)',
+          }}
+        >
+          <span className="text-white text-xl font-bold">✕</span>
+        </button>
+
         {/* Glowing corners */}
         <div className="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-cyan-400 rounded-tl-2xl opacity-70" />
         <div className="absolute top-0 right-0 w-24 h-24 border-t-2 border-r-2 border-pink-500 rounded-tr-2xl opacity-70" />
@@ -134,6 +150,23 @@ export const PartyCard = ({ isVisible }: PartyCardProps) => {
             🎵 Click en los globos para explotarlos 🎵
           </p>
         </div>
+
+        {/* Reset button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          className="mt-6 w-full py-3 rounded-xl font-bold tracking-widest text-sm transition-all duration-300 hover:scale-[1.02]"
+          style={{
+            background: 'linear-gradient(135deg, #5a189a, #7b2cbf)',
+            border: '1px solid rgba(255, 0, 204, 0.5)',
+            color: '#fff',
+            boxShadow: '0 0 20px rgba(90, 24, 154, 0.5)',
+          }}
+        >
+          🔄 CERRAR INVITACIÓN
+        </button>
       </div>
     </div>
   );
