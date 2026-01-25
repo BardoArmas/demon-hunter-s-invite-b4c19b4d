@@ -1,73 +1,112 @@
 import { useState } from 'react';
+import confetti from 'canvas-confetti';
 import { Envelope } from '@/components/Envelope';
-import { Confetti } from '@/components/Confetti';
-import { Balloons } from '@/components/Balloons';
 import { PartyCard } from '@/components/PartyCard';
+import { useBalloonsCanvas } from '@/hooks/useBalloonsCanvas';
 import backgroundImage from '@/assets/background.jpg';
+
+const confettiColors = ['#ff00cc', '#00ffff', '#ffffff', '#5f27cd', '#ff1493', '#ffd700'];
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showEffects, setShowEffects] = useState(false);
+  const canvasRef = useBalloonsCanvas(isOpen);
 
   const handleOpen = () => {
-    setIsOpen(true);
-    setShowEffects(true);
-    
-    // Stop effects after a while to clean up
-    setTimeout(() => {
-      setShowEffects(false);
-    }, 5000);
+    if (!isOpen) {
+      setIsOpen(true);
+      
+      // Big confetti explosion
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.5, x: 0.5 },
+        colors: confettiColors,
+      });
+
+      // Side bursts
+      setTimeout(() => {
+        confetti({
+          particleCount: 80,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.6 },
+          colors: confettiColors,
+        });
+        confetti({
+          particleCount: 80,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.6 },
+          colors: confettiColors,
+        });
+      }, 200);
+    }
   };
 
   return (
     <div 
-      className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        background: 'radial-gradient(circle at top, #301934 0%, #120016 50%, #05010a 100%)',
       }}
     >
-      {/* Dark overlay */}
+      {/* Background image with overlay */}
       <div 
-        className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/80"
+        className="absolute inset-0 opacity-30"
         style={{
-          backdropFilter: 'blur(2px)',
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
       />
 
-      {/* Animated background particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+      {/* Gradient overlay */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(circle at center, transparent 0%, rgba(5, 1, 10, 0.8) 100%)',
+        }}
+      />
+
+      {/* Balloons Canvas */}
+      <canvas
+        ref={canvasRef}
+        className={`fixed inset-0 z-[1] transition-opacity duration-1000 ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      />
+
+      {/* Main content */}
+      <div className="relative z-10 flex flex-col items-center">
+        <Envelope onOpen={handleOpen} isOpen={isOpen} />
+        <PartyCard isVisible={isOpen} />
+      </div>
+
+      {/* Ambient particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {[...Array(30)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 rounded-full bg-accent/30"
+            className="absolute rounded-full"
             style={{
+              width: 2 + Math.random() * 3,
+              height: 2 + Math.random() * 3,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`,
+              backgroundColor: i % 2 === 0 ? 'rgba(255, 0, 204, 0.3)' : 'rgba(0, 255, 255, 0.3)',
+              animation: `float ${4 + Math.random() * 4}s ease-in-out infinite`,
+              animationDelay: `${Math.random() * 3}s`,
             }}
           />
         ))}
       </div>
 
-      {/* Effects */}
-      <Confetti active={showEffects} />
-      <Balloons active={showEffects} />
-
-      {/* Main content */}
-      <div className="relative z-10">
-        {!isOpen && <Envelope onOpen={handleOpen} isOpen={isOpen} />}
-        <PartyCard isVisible={isOpen} />
-      </div>
-
       {/* Corner decorations */}
-      <div className="fixed top-4 left-4 text-accent/50 text-2xl animate-pulse">✦</div>
-      <div className="fixed top-4 right-4 text-primary/50 text-2xl animate-pulse delay-100">✦</div>
-      <div className="fixed bottom-4 left-4 text-gold/50 text-2xl animate-pulse delay-200">✦</div>
-      <div className="fixed bottom-4 right-4 text-accent/50 text-2xl animate-pulse delay-300">✦</div>
+      <div className="fixed top-4 left-4 text-pink-500/40 text-3xl animate-pulse">✦</div>
+      <div className="fixed top-4 right-4 text-cyan-400/40 text-3xl animate-pulse" style={{ animationDelay: '0.5s' }}>✦</div>
+      <div className="fixed bottom-4 left-4 text-cyan-400/40 text-3xl animate-pulse" style={{ animationDelay: '1s' }}>✦</div>
+      <div className="fixed bottom-4 right-4 text-pink-500/40 text-3xl animate-pulse" style={{ animationDelay: '1.5s' }}>✦</div>
     </div>
   );
 };
