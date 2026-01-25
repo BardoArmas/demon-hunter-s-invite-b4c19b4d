@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { Envelope } from '@/components/Envelope';
 import { PartyCard } from '@/components/PartyCard';
@@ -11,37 +11,46 @@ const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
   const canvasRef = useBalloonsCanvas(isOpen);
 
-  const handleOpen = () => {
-    if (!isOpen) {
-      setIsOpen(true);
-      
-      // Big confetti explosion
+  const fireConfetti = useCallback(() => {
+    // Big confetti explosion
+    confetti({
+      particleCount: 150,
+      spread: 80,
+      origin: { y: 0.5, x: 0.5 },
+      colors: confettiColors,
+    });
+
+    // Side bursts
+    setTimeout(() => {
       confetti({
-        particleCount: 150,
-        spread: 80,
-        origin: { y: 0.5, x: 0.5 },
+        particleCount: 80,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.6 },
         colors: confettiColors,
       });
+      confetti({
+        particleCount: 80,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.6 },
+        colors: confettiColors,
+      });
+    }, 200);
+  }, []);
 
-      // Side bursts
-      setTimeout(() => {
-        confetti({
-          particleCount: 80,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0, y: 0.6 },
-          colors: confettiColors,
-        });
-        confetti({
-          particleCount: 80,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1, y: 0.6 },
-          colors: confettiColors,
-        });
-      }, 200);
+  const handleToggle = useCallback(() => {
+    const newState = !isOpen;
+    setIsOpen(newState);
+    
+    if (newState) {
+      fireConfetti();
     }
-  };
+  }, [isOpen, fireConfetti]);
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
   return (
     <div 
@@ -78,9 +87,9 @@ const Index = () => {
       />
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center">
-        <Envelope onOpen={handleOpen} isOpen={isOpen} />
-        <PartyCard isVisible={isOpen} />
+      <div className="relative z-10 flex flex-col items-center max-h-screen overflow-y-auto py-8">
+        <Envelope onToggle={handleToggle} isOpen={isOpen} />
+        <PartyCard isVisible={isOpen} onClose={handleClose} />
       </div>
 
       {/* Ambient particles */}
