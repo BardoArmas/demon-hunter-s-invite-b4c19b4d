@@ -6,90 +6,132 @@ export const PartyCard = ({ isVisible }: PartyCardProps) => {
   if (!isVisible) return null;
 
   return (
-    <div className="animate-card-reveal">
+    <div className="animate-card-reveal mt-8">
       <div 
-        className="relative max-w-md mx-auto p-8 rounded-2xl overflow-hidden"
+        className="relative max-w-lg mx-auto p-8 md:p-10 rounded-2xl overflow-hidden backdrop-blur-sm"
         style={{
-          background: 'linear-gradient(135deg, hsl(0 0% 8% / 0.95), hsl(270 50% 10% / 0.95))',
-          border: '2px solid hsl(330 100% 65% / 0.5)',
-          boxShadow: 'var(--shadow-neon), inset 0 0 50px hsl(0 0% 0% / 0.5)',
+          background: 'linear-gradient(135deg, rgba(75, 0, 130, 0.9), rgba(45, 27, 78, 0.95))',
+          border: '2px solid rgba(255, 0, 204, 0.5)',
+          boxShadow: '0 0 40px rgba(255, 0, 204, 0.4), 0 0 80px rgba(0, 255, 255, 0.2), inset 0 0 60px rgba(0, 0, 0, 0.4)',
         }}
       >
-        {/* Decorative corners */}
-        <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-gold rounded-tl-2xl" />
-        <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-gold rounded-tr-2xl" />
-        <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-gold rounded-bl-2xl" />
-        <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-gold rounded-br-2xl" />
+        {/* Glowing corners */}
+        <div className="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-cyan-400 rounded-tl-2xl opacity-70" />
+        <div className="absolute top-0 right-0 w-24 h-24 border-t-2 border-r-2 border-pink-500 rounded-tr-2xl opacity-70" />
+        <div className="absolute bottom-0 left-0 w-24 h-24 border-b-2 border-l-2 border-pink-500 rounded-bl-2xl opacity-70" />
+        <div className="absolute bottom-0 right-0 w-24 h-24 border-b-2 border-r-2 border-cyan-400 rounded-br-2xl opacity-70" />
 
         {/* Header */}
-        <div className="text-center mb-6">
-          <p className="text-accent text-sm tracking-[0.3em] mb-2">YOU ARE INVITED TO</p>
-          <h1 className="font-display text-3xl md:text-4xl text-glow-pink text-foreground font-bold mb-2">
+        <div className="text-center mb-8">
+          <p 
+            className="text-sm tracking-[0.4em] mb-3 font-medium"
+            style={{ color: '#00ffff' }}
+          >
+            ESTÁS INVITAD@ A
+          </p>
+          <h1 
+            className="font-display text-4xl md:text-5xl font-bold mb-2"
+            style={{
+              background: 'linear-gradient(180deg, #ff00cc, #ff1493)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 0 10px rgba(255, 0, 204, 0.5))',
+            }}
+          >
             DEMON HUNTER
           </h1>
-          <h2 className="font-display text-2xl md:text-3xl text-glow-gold text-gold">
+          <h2 
+            className="font-display text-2xl md:text-3xl"
+            style={{
+              background: 'linear-gradient(180deg, #00ffff, #00d4ff)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 0 8px rgba(0, 255, 255, 0.5))',
+            }}
+          >
             K-POP PARTY
           </h2>
-          <div className="flex justify-center items-center gap-2 mt-3">
-            <span className="text-primary">👹</span>
-            <span className="text-accent">🎤</span>
-            <span className="text-gold">⚔️</span>
-            <span className="text-neon-blue">💜</span>
+          <div className="flex justify-center items-center gap-3 mt-4 text-2xl">
+            <span className="animate-pulse">👹</span>
+            <span className="animate-bounce">🎤</span>
+            <span className="animate-pulse delay-100">⚔️</span>
+            <span className="animate-bounce delay-200">💜</span>
+            <span className="animate-pulse delay-300">🔥</span>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-accent to-transparent my-6" />
+        {/* Neon divider */}
+        <div 
+          className="w-full h-[2px] my-6"
+          style={{
+            background: 'linear-gradient(90deg, transparent, #ff00cc, #00ffff, transparent)',
+            boxShadow: '0 0 10px rgba(255, 0, 204, 0.5)',
+          }}
+        />
 
         {/* Event Details */}
-        <div className="space-y-4 text-center">
-          <div className="flex items-center justify-center gap-3">
-            <span className="text-2xl">📅</span>
+        <div className="space-y-5">
+          <div className="flex items-center gap-4 p-3 rounded-xl" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+            <span className="text-3xl">📅</span>
             <div>
-              <p className="text-muted-foreground text-sm">FECHA</p>
-              <p className="text-foreground font-semibold text-lg">15 de Febrero, 2025</p>
+              <p className="text-cyan-400 text-xs tracking-widest font-medium">FECHA</p>
+              <p className="text-white font-bold text-lg">15 de Febrero, 2025</p>
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-3">
-            <span className="text-2xl">🕗</span>
+          <div className="flex items-center gap-4 p-3 rounded-xl" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+            <span className="text-3xl">🕗</span>
             <div>
-              <p className="text-muted-foreground text-sm">HORA</p>
-              <p className="text-foreground font-semibold text-lg">8:00 PM</p>
+              <p className="text-pink-400 text-xs tracking-widest font-medium">HORA</p>
+              <p className="text-white font-bold text-lg">8:00 PM</p>
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-3">
-            <span className="text-2xl">📍</span>
+          <div className="flex items-center gap-4 p-3 rounded-xl" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+            <span className="text-3xl">📍</span>
             <div>
-              <p className="text-muted-foreground text-sm">LUGAR</p>
-              <p className="text-foreground font-semibold text-lg">Club Underworld</p>
-              <p className="text-muted-foreground text-sm">Calle Oscura #666</p>
+              <p className="text-purple-400 text-xs tracking-widest font-medium">LUGAR</p>
+              <p className="text-white font-bold text-lg">Club Underworld</p>
+              <p className="text-gray-400 text-sm">Calle Oscura #666</p>
             </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent my-6" />
+        {/* Neon divider */}
+        <div 
+          className="w-full h-[2px] my-6"
+          style={{
+            background: 'linear-gradient(90deg, transparent, #00ffff, #ff00cc, transparent)',
+            boxShadow: '0 0 10px rgba(0, 255, 255, 0.5)',
+          }}
+        />
 
         {/* Dress Code */}
         <div className="text-center">
-          <p className="text-accent text-sm tracking-widest mb-2">DRESS CODE</p>
-          <p className="text-foreground">
-            <span className="text-primary font-bold">Dark</span> & <span className="text-accent font-bold">K-pop</span> Style
+          <p className="text-pink-400 text-sm tracking-[0.3em] mb-2 font-medium">DRESS CODE</p>
+          <p className="text-white text-lg">
+            <span className="text-pink-500 font-bold">Dark</span> & <span className="text-cyan-400 font-bold">K-pop</span> Style
           </p>
-          <p className="text-muted-foreground text-sm mt-1">
+          <p className="text-gray-400 text-sm mt-2">
             ¡Ven vestido como tu idol favorito versión demon hunter!
           </p>
         </div>
 
         {/* Footer */}
         <div className="mt-8 text-center">
-          <p className="text-gold font-display text-lg tracking-widest">
+          <p 
+            className="font-display text-xl tracking-[0.2em]"
+            style={{
+              background: 'linear-gradient(90deg, #ffd700, #ff8c00)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.6))',
+            }}
+          >
             ✦ 악마 사냥꾼 ✦
           </p>
-          <p className="text-muted-foreground text-xs mt-2">
-            #DemonHunterParty #KpopNight
+          <p className="text-gray-500 text-xs mt-3">
+            🎵 Click en los globos para explotarlos 🎵
           </p>
         </div>
       </div>
