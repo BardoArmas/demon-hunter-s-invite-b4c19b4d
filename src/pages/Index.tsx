@@ -1,15 +1,43 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Envelope } from '@/components/Envelope';
 import { PartyCard } from '@/components/PartyCard';
 import { useBalloonsCanvas } from '@/hooks/useBalloonsCanvas';
-import backgroundImage from '@/assets/background.jpg';
+import backgroundImage from '@/assets/background.webp';
+import goldenMp3 from '@/assets/Golden.mp3';
 
 const confettiColors = ['#ff00cc', '#00ffff', '#ffffff', '#5f27cd', '#ff1493', '#ffd700'];
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
   const canvasRef = useBalloonsCanvas(isOpen);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio(goldenMp3);
+    audioRef.current.volume = 0.5; // Ajustar volumen inicial si es necesario
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isOpen) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(error => {
+          console.log("Audio playback failed:", error);
+        });
+      } else {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    }
+  }, [isOpen]);
 
   const fireConfetti = useCallback(() => {
     // Big confetti explosion
@@ -86,9 +114,18 @@ const Index = () => {
         }`}
       />
 
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center max-h-screen overflow-y-auto py-8">
+      {/* Envelope Container - Absolute Centered */}
+      <div 
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-1000 ease-in-out ${
+            isOpen ? 'opacity-0 pointer-events-none scale-110' : 'opacity-100 scale-100'
+          }`}
+          style={{ transitionDelay: isOpen ? '1s' : '0s' }}
+      >
         <Envelope onToggle={handleToggle} isOpen={isOpen} />
+      </div>
+
+      {/* Main content */}
+      <div className="relative z-10 flex flex-col items-center max-h-screen overflow-y-auto py-8 w-full pointer-events-none">
         <PartyCard isVisible={isOpen} onClose={handleClose} />
       </div>
 

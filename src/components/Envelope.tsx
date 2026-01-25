@@ -10,8 +10,8 @@ export const Envelope = ({ onToggle, isOpen }: EnvelopeProps) => {
 
   return (
     <div
-      className={`cursor-pointer transition-all duration-300 z-10 relative ${
-        isHovered && !isOpen ? 'translate-y-[-4px] scale-[1.02]' : ''
+      className={`cursor-pointer transition-all duration-300 z-10 relative scale-90 sm:scale-100 ${
+        isHovered && !isOpen ? 'translate-y-[-4px] scale-[0.92] sm:scale-[1.02]' : ''
       } ${!isOpen ? 'animate-float' : ''}`}
       onClick={onToggle}
       onMouseEnter={() => setIsHovered(true)}
@@ -58,10 +58,10 @@ export const Envelope = ({ onToggle, isOpen }: EnvelopeProps) => {
               filter: 'drop-shadow(0 0 2px rgba(255,255,255,0.5))',
             }}
           >
-            HUNTRIX
+            Globos, pastel y diversión…
           </h2>
           <p className="text-white font-bold text-sm drop-shadow-md">
-            Top Secret Mission
+           ¡te espero en mi fiesta de cumpleaños!
           </p>
           
           {/* Demon Eye */}
@@ -134,7 +134,7 @@ export const Envelope = ({ onToggle, isOpen }: EnvelopeProps) => {
             animation: !isOpen ? 'pulse 2s infinite' : 'none',
           }}
         >
-          <span className="text-2xl">👹</span>
+          <span className="text-2xl">💜</span>
         </div>
       </div>
 

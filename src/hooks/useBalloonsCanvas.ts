@@ -81,6 +81,22 @@ export const useBalloonsCanvas = (active: boolean) => {
     ctx.stroke();
   }, []);
 
+  const explodeBalloon = useCallback((balloon: Balloon, canvas: HTMLCanvasElement) => {
+    // Explode confetti at balloon position
+    confetti({
+      particleCount: 40,
+      spread: 60,
+      startVelocity: 25,
+      origin: {
+        x: balloon.x / canvas.width,
+        y: balloon.y / canvas.height
+      },
+      colors: [balloon.color, '#ffffff', '#ff00cc']
+    });
+    // Reset balloon
+    resetBalloon(balloon, canvas.width, canvas.height);
+  }, [resetBalloon]);
+
   const handleClick = useCallback((e: MouseEvent) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -92,22 +108,10 @@ export const useBalloonsCanvas = (active: boolean) => {
     balloonsRef.current.forEach(balloon => {
       const distance = Math.hypot(mx - balloon.x, my - balloon.y);
       if (distance < balloon.r) {
-        // Explode confetti at balloon position
-        confetti({
-          particleCount: 40,
-          spread: 60,
-          startVelocity: 25,
-          origin: {
-            x: balloon.x / canvas.width,
-            y: balloon.y / canvas.height
-          },
-          colors: [balloon.color, '#ffffff', '#ff00cc']
-        });
-        // Reset balloon
-        resetBalloon(balloon, canvas.width, canvas.height);
+        explodeBalloon(balloon, canvas);
       }
     });
-  }, [resetBalloon]);
+  }, [explodeBalloon]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -148,6 +152,33 @@ export const useBalloonsCanvas = (active: boolean) => {
 
       animate();
       canvas.addEventListener('click', handleClick);
+
+      // Auto explode random balloon every 3 seconds
+      const autoExplodeInterval = setInterval(() => {
+        const balloons = balloonsRef.current;
+        if (balloons.length > 0) {
+          // Filter balloons that are visible on screen (approx) to avoid exploding hidden ones too often
+          const visibleBalloons = balloons.filter(b => b.y > 0 && b.y < canvas.height);
+          
+          if (visibleBalloons.length > 0) {
+            const randomBalloon = visibleBalloons[Math.floor(Math.random() * visibleBalloons.length)];
+            explodeBalloon(randomBalloon, canvas);
+          } else if (balloons.length > 0) {
+             // Fallback to any balloon if none are perfectly visible
+             const randomBalloon = balloons[Math.floor(Math.random() * balloons.length)];
+             explodeBalloon(randomBalloon, canvas);
+          }
+        }
+      }, 3000);
+
+      return () => {
+        window.removeEventListener('resize', resize);
+        canvas.removeEventListener('click', handleClick);
+        clearInterval(autoExplodeInterval);
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+      };
     }
 
     return () => {
@@ -157,7 +188,7 @@ export const useBalloonsCanvas = (active: boolean) => {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [active, createBalloon, resetBalloon, drawBalloon, handleClick]);
+  }, [active, createBalloon, resetBalloon, drawBalloon, handleClick, explodeBalloon]);
 
   return canvasRef;
 };
