@@ -210,5 +210,30 @@
 }
 
 .transform-style-3d {
-  transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+
+  /* Custom Thin Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(138, 43, 226, 0.3); /* Lilac semi-transparent */
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(138, 43, 226, 0.5);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(138, 43, 226, 0.3) transparent;
+  }
 }

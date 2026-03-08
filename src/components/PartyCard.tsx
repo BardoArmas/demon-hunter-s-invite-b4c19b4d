@@ -9,11 +9,9 @@ export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
   return (
     <div className="animate-card-reveal mt-8 pointer-events-auto w-full px-4 md:px-0">
       <div 
-        className="relative w-full max-w-lg mx-auto p-6 md:p-10 rounded-2xl overflow-hidden backdrop-blur-sm"
+        className="relative w-full max-w-lg mx-auto p-6 md:p-10 rounded-2xl overflow-hidden shadow-2xl bg-white"
         style={{
-          background: 'linear-gradient(135deg, rgba(75, 0, 130, 0.9), rgba(45, 27, 78, 0.95))',
-          border: '2px solid rgba(255, 0, 204, 0.5)',
-          boxShadow: '0 0 40px rgba(255, 0, 204, 0.4), 0 0 80px rgba(0, 255, 255, 0.2), inset 0 0 60px rgba(0, 0, 0, 0.4)',
+          border: '3px solid #D4AF37', // Gold border
         }}
       >
         {/* Close button */}
@@ -24,130 +22,122 @@ export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
           }}
           className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 z-20"
           style={{
-            background: 'linear-gradient(135deg, #ff1493, #ff00cc)',
-            boxShadow: '0 0 15px rgba(255, 0, 204, 0.6)',
+            background: 'linear-gradient(135deg, #D4AF37, #C5A028)',
+            boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
           }}
         >
           <span className="text-white text-sm font-bold">✕</span>
         </button>
 
-        {/* Glowing corners */}
-        <div className="absolute top-0 left-0 w-16 h-16 md:w-24 md:h-24 border-t-2 border-l-2 border-cyan-400 rounded-tl-2xl opacity-70" />
-        <div className="absolute top-0 right-0 w-16 h-16 md:w-24 md:h-24 border-t-2 border-r-2 border-pink-500 rounded-tr-2xl opacity-70" />
-        <div className="absolute bottom-0 left-0 w-16 h-16 md:w-24 md:h-24 border-b-2 border-l-2 border-pink-500 rounded-bl-2xl opacity-70" />
-        <div className="absolute bottom-0 right-0 w-16 h-16 md:w-24 md:h-24 border-b-2 border-r-2 border-cyan-400 rounded-br-2xl opacity-70" />
+        {/* Decorative corners (Gold & Lilac) */}
+        <div className="absolute top-0 left-0 w-16 h-16 md:w-24 md:h-24 border-t-4 border-l-4 border-[#D4AF37] rounded-tl-2xl opacity-80" />
+        <div className="absolute top-0 right-0 w-16 h-16 md:w-24 md:h-24 border-t-4 border-r-4 border-[#B19CD9] rounded-tr-2xl opacity-80" />
+        <div className="absolute bottom-0 left-0 w-16 h-16 md:w-24 md:h-24 border-b-4 border-l-4 border-[#B19CD9] rounded-bl-2xl opacity-80" />
+        <div className="absolute bottom-0 right-0 w-16 h-16 md:w-24 md:h-24 border-b-4 border-r-4 border-[#D4AF37] rounded-br-2xl opacity-80" />
 
         {/* Header */}
         <div className="text-center mb-8">
           <p 
-            className="text-[10px] sm:text-xs md:text-sm tracking-[0.4em] mb-3 font-medium"
-            style={{ color: '#00ffff' }}
+            className="text-[10px] sm:text-xs md:text-sm tracking-[0.4em] mb-3 font-bold"
+            style={{ color: '#D4AF37' }}
           >
             ESTÁS INVITAD@ AL CUMPLEAÑOS DE
           </p>
           <h1 
             className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-2"
             style={{
-              background: 'linear-gradient(180deg, #ff00cc, #ff1493)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              filter: 'drop-shadow(0 0 10px rgba(255, 0, 204, 0.5))',
+              color: '#8A2BE2', // Lilac/Purple
+              textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
             }}
           >
             Dayana Michelle
           </h1>
           <h2 
-            className="font-display text-xl sm:text-2xl md:text-3xl"
+            className="font-display text-xl sm:text-2xl md:text-3xl font-semibold"
             style={{
-              background: 'linear-gradient(180deg, #00ffff, #00d4ff)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              filter: 'drop-shadow(0 0 8px rgba(0, 255, 255, 0.5))',
+              color: '#D4AF37',
             }}
           >
             K-POP PARTY
           </h2>
           <div className="flex justify-center items-center gap-3 mt-4 text-2xl">
-            <span className="animate-pulse">💜</span>
+            <span className="animate-pulse">✨</span>
             <span className="animate-bounce">🎤</span>
-            <span className="animate-pulse delay-100">💜</span>
+            <span className="animate-pulse delay-100">👑</span>
             <span className="animate-bounce delay-200">🎤</span>
-            <span className="animate-pulse delay-300">💜</span>
+            <span className="animate-pulse delay-300">✨</span>
           </div>
         </div>
 
-        {/* Neon divider */}
+        {/* Elegant divider */}
         <div 
           className="w-full h-[2px] my-6"
           style={{
-            background: 'linear-gradient(90deg, transparent, #ff00cc, #00ffff, transparent)',
-            boxShadow: '0 0 10px rgba(255, 0, 204, 0.5)',
+            background: 'linear-gradient(90deg, transparent, #D4AF37, #B19CD9, transparent)',
           }}
         />
 
         {/* Event Details */}
         <div className="space-y-5">
-          <div className="flex items-center gap-4 p-3 rounded-xl" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+          <div className="flex items-center gap-4 p-4 rounded-xl border border-[#B19CD9]/30 bg-[#F8F4FF]">
             <span className="text-2xl md:text-3xl">📅</span>
             <div>
-              <p className="text-cyan-400 text-xs tracking-widest font-medium">FECHA</p>
-              <p className="text-white font-bold text-base md:text-lg">15 de Febrero, 2025</p>
+              <p className="text-[#8A2BE2] text-xs tracking-widest font-bold">FECHA</p>
+              <p className="text-gray-800 font-bold text-base md:text-lg">Sabado 16 de Abril del 2026</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 p-3 rounded-xl" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+          <div className="flex items-center gap-4 p-4 rounded-xl border border-[#D4AF37]/30 bg-[#FFFDF5]">
             <span className="text-2xl md:text-3xl">🕗</span>
             <div>
-              <p className="text-pink-400 text-xs tracking-widest font-medium">HORA</p>
-              <p className="text-white font-bold text-base md:text-lg">8:00 PM</p>
+              <p className="text-[#D4AF37] text-xs tracking-widest font-bold">HORA</p>
+              <p className="text-gray-800 font-bold text-base md:text-lg">6:00 PM</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 p-3 rounded-xl" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
-            <span className="text-2xl md:text-3xl">📍</span>
+          <a 
+            href="https://maps.app.goo.gl/ZKyQ7gkBGDGfkuCu7" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 p-4 rounded-xl border border-[#B19CD9]/30 bg-[#F8F4FF] transition-all hover:bg-[#F0E8FF] hover:border-[#8A2BE2]/50 group"
+          >
+            <span className="text-2xl md:text-3xl transition-transform group-hover:scale-110">📍</span>
             <div>
-              <p className="text-purple-400 text-xs tracking-widest font-medium">LUGAR</p>
-              <p className="text-white font-bold text-base md:text-lg">Club Underworld</p>
-              <p className="text-gray-400 text-sm">Calle Oscura #666</p>
+              <p className="text-[#8A2BE2] text-xs tracking-widest font-bold">LUGAR (Ver mapa 🗺️)</p>
+              <p className="text-gray-800 font-bold text-base md:text-lg">Salon de fiestas Alfredos</p>
+              <p className="text-gray-600 text-sm">C. 20 de Noviembre 5717, San Baltazar Campeche, 72550 Heroica Puebla de Zaragoza, Pue.</p>
             </div>
-          </div>
+          </a>
         </div>
 
-        {/* Neon divider */}
+        {/* Elegant divider */}
         <div 
           className="w-full h-[2px] my-6"
           style={{
-            background: 'linear-gradient(90deg, transparent, #00ffff, #ff00cc, transparent)',
-            boxShadow: '0 0 10px rgba(0, 255, 255, 0.5)',
+            background: 'linear-gradient(90deg, transparent, #B19CD9, #D4AF37, transparent)',
           }}
         />
 
         {/* Dress Code */}
         <div className="text-center">
-          <p className="text-pink-400 text-xs md:text-sm tracking-[0.3em] mb-2 font-medium">DRESS CODE</p>
-          <p className="text-white text-base md:text-lg">
-            <span className="text-pink-500 font-bold">Dark</span> & <span className="text-cyan-400 font-bold">K-pop</span> Style
+          <p className="text-[#D4AF37] text-xs md:text-sm tracking-[0.3em] mb-2 font-bold">Esta invitación es valida como tu pase</p>
+          <p className="text-gray-800 text-base md:text-lg">
+            <span className="text-[#8A2BE2] font-bold">Valido para 3 - 4 personas</span>
           </p>
-          <p className="text-gray-400 text-xs md:text-sm mt-2">
-            ¡Ven vestido como tu idol favorito versión demon hunter!
+          <p className="text-gray-500 text-xs md:text-sm mt-2">
+            ¡Ven vestido como tu idol favorito con un toque de gala!
           </p>
         </div>
 
         {/* Footer */}
         <div className="mt-8 text-center">
           <p 
-            className="font-display text-lg sm:text-xl tracking-[0.2em]"
+            className="font-display text-lg sm:text-xl tracking-[0.2em] font-bold"
             style={{
-              background: 'linear-gradient(90deg, #ffd700, #ff8c00)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.6))',
+              color: '#D4AF37',
             }}
           >
-            ✦ 악마 사냥꾼 ✦
-          </p>
-          <p className="text-gray-500 text-xs mt-3">
-            🎵 Click en los globos para explotarlos 🎵
+            ✦ Te esperamos !! ✦
           </p>
         </div>
 
@@ -156,35 +146,31 @@ export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
           onClick={(e) => {
             e.stopPropagation();
             const phoneNumber = "522228440643";
-            const message = encodeURIComponent("Confirmado 😈💜 Nos vemos en el escenario… o en la batalla..");
+            const message = encodeURIComponent("Confirmado ✨💜 ¡Estaré presente en tu gran noche!");
             window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
           }}
-          className="mt-6 w-full py-3 rounded-xl font-bold tracking-widest text-sm transition-all duration-300 hover:scale-[1.02]"
+          className="mt-6 w-full py-4 rounded-xl font-bold tracking-widest text-sm transition-all duration-300 hover:scale-[1.02] shadow-md"
           style={{
             background: 'linear-gradient(135deg, #25D366, #128C7E)',
-            border: '1px solid rgba(37, 211, 102, 0.5)',
             color: '#fff',
-            boxShadow: '0 0 20px rgba(37, 211, 102, 0.4)',
           }}
         >
-          📱 Confirma tu asistencia ...
+          📱 CONFIRMA TU ASISTENCIA
         </button>
 
-        {/* Reset button */}
+        {/* Close button at bottom */}
         <button
           onClick={(e) => {
             e.stopPropagation();
             onClose();
           }}
-          className="mt-4 w-full py-3 rounded-xl font-bold tracking-widest text-sm transition-all duration-300 hover:scale-[1.02]"
+          className="mt-4 w-full py-4 rounded-xl font-bold tracking-widest text-sm transition-all duration-300 hover:scale-[1.02] border-2 border-[#D4AF37]/50"
           style={{
-            background: 'linear-gradient(135deg, #5a189a, #7b2cbf)',
-            border: '1px solid rgba(255, 0, 204, 0.5)',
-            color: '#fff',
-            boxShadow: '0 0 20px rgba(90, 24, 154, 0.5)',
+            background: '#fff',
+            color: '#D4AF37',
           }}
         >
-          🔄 CERRAR INVITACIÓN
+          🔄 VOLVER AL INICIO
         </button>
       </div>
     </div>
