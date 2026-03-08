@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { PartyCard } from '@/components/PartyCard';
-import { InteractiveBalloons } from '@/components/InteractiveBalloons';
 import { useBalloonsCanvas } from '@/hooks/useBalloonsCanvas';
 import backgroundImage from '@/assets/background.webp';
 import goldenMp3 from '@/assets/Golden.mp3';
@@ -152,7 +151,7 @@ const Index = () => {
       <canvas
         ref={canvasRef}
         className={`fixed inset-0 z-[1] transition-opacity duration-1000 ${
-          step === 'card' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          (step === 'card' || step === 'welcome') ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       />
 
