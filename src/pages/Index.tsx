@@ -116,6 +116,7 @@ const Index = () => {
             ref={videoRef}
             src={vidMp4}
             autoPlay
+            muted
             playsInline
             webkit-playsinline="true"
             onEnded={handleVideoEnd}
