@@ -12,7 +12,7 @@ const confettiColors = ['#ff00cc', '#00ffff', '#ffffff', '#5f27cd', '#ff1493', '
 
 const Index = () => {
   const [step, setStep] = useState<'welcome' | 'video' | 'card'>('welcome');
-  const canvasRef = useBalloonsCanvas(step === 'card');
+  const canvasRef = useBalloonsCanvas(step === 'card' || step === 'welcome');
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -86,7 +86,6 @@ const Index = () => {
       {/* Welcome Screen */}
       {step === 'welcome' && (
         <>
-          <InteractiveBalloons />
           <div className="z-50 flex flex-col items-center text-center space-y-8 animate-fade-in">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-6xl font-bold text-[#8A2BE2] drop-shadow-sm">
@@ -118,6 +117,8 @@ const Index = () => {
             ref={videoRef}
             src={vidMp4}
             autoPlay
+            playsInline
+            webkit-playsinline="true"
             onEnded={handleVideoEnd}
             className="w-[130%] h-full object-cover"
           />
