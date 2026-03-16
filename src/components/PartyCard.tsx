@@ -111,7 +111,7 @@ export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
           <p 
             className="text-[10px] sm:text-xs md:text-sm tracking-[0.4em] mb-3 font-bold"
             style={goldGradientText}
-          >
+          >       
             ESTÁS INVITAD@ AL CUMPLEAÑOS DE
           </p>
           <h1 
@@ -124,8 +124,7 @@ export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
             Dayana Michelle
           </h1>
           <p className="text-gray-700 text-sm sm:text-base md:text-lg font-semibold mt-2">
-            Acompáñanos a celebrar un día muy especial,
-¡nuestra princesa cumple 3 añitos!
+            Una celebración muy especial está por llegar… ¡la princesa Dayana Michelle cumple 3 añitos!
           </p>
           <div className="flex justify-center items-center gap-3 mt-4 text-2xl">
             <span className="animate-pulse">✨</span>
@@ -207,9 +206,13 @@ export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
         {/* Dress Code */}
         <div className="text-center">
           <p className="text-[#b8860b] text-xs md:text-sm tracking-[0.3em] mb-2 font-bold">Esta invitación es valida como tu pase</p>
-          <div className="relative mt-5 mx-auto w-full max-w-md overflow-hidden rounded-2xl border-2 border-[#b8860b]/60 shadow-lg">
-            <img src={contadorPng} alt="Contador" className="block w-full h-auto" />
-            <div className="absolute top-[56%] left-[10%] right-[10%]">
+          <div className="relative mt-5 w-full overflow-hidden rounded-2xl shadow-lg aspect-[3/1]">
+            <img
+              src={contadorPng}
+              alt="Contador"
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+            <div className="absolute top-[56%] left-[10%] right-[10%] z-10">
               <div className="flex flex-col items-center">
                 <div className="text-[10px] sm:text-xs tracking-[0.3em] font-bold text-black/75">
                   FALTAN
