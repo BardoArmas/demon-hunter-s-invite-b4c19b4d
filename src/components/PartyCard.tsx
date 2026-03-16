@@ -217,7 +217,7 @@ export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
                 <div className="text-[10px] sm:text-xs tracking-[0.3em] font-bold text-black/75">
                   FALTAN
                 </div>
-                <div className="w-full font-mono text-2xl sm:text-3xl font-extrabold text-black tracking-[0.35em] text-center">
+                <div className="w-full font-mono font-extrabold text-black text-center leading-none whitespace-nowrap [font-variant-numeric:tabular-nums] text-[clamp(18px,6.5vw,30px)] tracking-[0.18em] sm:tracking-[0.35em]">
                   {countdown}
                 </div>
               </div>
