@@ -176,7 +176,7 @@ export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
             <div>
               <p className="text-xs tracking-widest font-bold" style={goldGradientText}>FIESTA</p>
               <p className="text-gray-800 font-bold text-base md:text-lg">6:00 PM</p>
-              <p className="text-gray-600 text-sm font-semibold">Empieza la pachanga a las 6:00 PM</p>
+              <p className="text-gray-600 text-sm font-semibold"></p>
             </div>
           </div>
 
