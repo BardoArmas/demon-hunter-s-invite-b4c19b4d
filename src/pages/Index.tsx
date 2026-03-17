@@ -11,18 +11,55 @@ const confettiColors = ['#ff00cc', '#00ffff', '#ffffff', '#5f27cd', '#ff1493', '
 
 const Index = () => {
   const [step, setStep] = useState<'welcome' | 'video' | 'card'>('welcome');
+  const [videoNeedsTap, setVideoNeedsTap] = useState(false);
+  const [videoFailed, setVideoFailed] = useState(false);
+  const [videoAutoPlay, setVideoAutoPlay] = useState(true);
+  const [prefetchedVideoSrc, setPrefetchedVideoSrc] = useState<string | null>(null);
   const canvasRef = useBalloonsCanvas(step === 'card' || step === 'welcome');
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const prefetchedObjectUrlRef = useRef<string | null>(null);
 
   useEffect(() => {
     audioRef.current = new Audio(goldenMp3);
     audioRef.current.volume = 0.5;
+    audioRef.current.load();
     
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const connection = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const effectiveType = connection?.effectiveType ?? '';
+    const shouldPrefetch = !(connection?.saveData || effectiveType.includes('2g') || effectiveType.includes('3g'));
+
+    if (!shouldPrefetch) return;
+    if (prefetchedVideoSrc) return;
+
+    const timeoutId = window.setTimeout(() => {
+      fetch(vidMp4)
+        .then((r) => r.blob())
+        .then((blob) => {
+          const objectUrl = URL.createObjectURL(blob);
+          prefetchedObjectUrlRef.current = objectUrl;
+          setPrefetchedVideoSrc(objectUrl);
+        })
+        .catch(() => {});
+    }, 900);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [prefetchedVideoSrc]);
+
+  useEffect(() => {
+    return () => {
+      if (prefetchedObjectUrlRef.current) {
+        URL.revokeObjectURL(prefetchedObjectUrlRef.current);
+        prefetchedObjectUrlRef.current = null;
       }
     };
   }, []);
@@ -54,13 +91,61 @@ const Index = () => {
   }, []);
 
   const handleStart = () => {
+    const connection = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const effectiveType = connection?.effectiveType ?? '';
+    const shouldAutoPlay = !(connection?.saveData || effectiveType.includes('2g'));
+
+    setVideoAutoPlay(shouldAutoPlay);
     setStep('video');
+    setVideoNeedsTap(!shouldAutoPlay);
+    setVideoFailed(false);
     if (audioRef.current) {
       audioRef.current.play().catch(console.error);
     }
   };
 
   const handleVideoEnd = () => {
+    setStep('card');
+    fireConfetti();
+  };
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (step !== 'video') {
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      return;
+    }
+
+    if (!video) return;
+
+    video.muted = true;
+    video.playsInline = true;
+    video.load();
+
+    if (!videoAutoPlay) return;
+
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {
+        setVideoNeedsTap(true);
+      });
+    }
+  }, [step, videoAutoPlay]);
+
+  const handleVideoTapToPlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.playsInline = true;
+    video.play()
+      .then(() => setVideoNeedsTap(false))
+      .catch(() => setVideoFailed(true));
+  };
+
+  const handleSkipVideo = () => {
     setStep('card');
     fireConfetti();
   };
@@ -114,14 +199,45 @@ const Index = () => {
         <div className="fixed inset-0 z-40 bg-black flex items-center justify-center">
           <video
             ref={videoRef}
-            src={vidMp4}
-            autoPlay
+            src={prefetchedVideoSrc ?? vidMp4}
+            autoPlay={videoAutoPlay}
             muted
             playsInline
             webkit-playsinline="true"
             onEnded={handleVideoEnd}
+            onError={() => setVideoFailed(true)}
+            poster={kpopPng}
+            preload="metadata"
             className="w-[130%] h-full object-cover"
           />
+          {(videoNeedsTap || videoFailed) && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[1px]">
+              <div className="flex flex-col items-center gap-4 px-6 py-5 rounded-2xl bg-white/90 text-gray-900 shadow-xl">
+                <div className="text-center">
+                  <div className="text-sm font-bold tracking-widest text-[#8A2BE2]">VIDEO</div>
+                  <div className="text-base font-semibold">
+                    {videoFailed ? 'No se pudo reproducir en este dispositivo.' : 'Toque para reproducir.'}
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleVideoTapToPlay}
+                    className="px-5 py-3 rounded-xl font-bold tracking-widest text-sm text-white"
+                    style={{ background: 'linear-gradient(135deg, #8b6b1f 0%, #ffd86b 30%, #b8860b 85%, #fff2b0 100%)' }}
+                  >
+                    ▶ REPRODUCIR
+                  </button>
+                  <button
+                    onClick={handleSkipVideo}
+                    className="px-5 py-3 rounded-xl font-bold tracking-widest text-sm border-2 border-[#b8860b]/50 text-[#b8860b]"
+                    style={{ background: '#fff' }}
+                  >
+                    CONTINUAR
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
