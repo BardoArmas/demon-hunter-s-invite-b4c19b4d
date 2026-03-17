@@ -37,7 +37,7 @@ export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
     [],
   );
 
-  const targetDate = useMemo(() => new Date(2026, 3, 16, 16, 0, 0), []);
+  const targetDate = useMemo(() => new Date(2026, 3, 25, 16, 0, 0), []);
   const [nowMs, setNowMs] = useState(() => Date.now());
 
   useEffect(() => {
@@ -167,7 +167,7 @@ export const PartyCard = ({ isVisible, onClose }: PartyCardProps) => {
             <span className="text-2xl md:text-3xl">📅</span>
             <div>
               <p className="text-[#8A2BE2] text-xs tracking-widest font-bold">FECHA</p>
-              <p className="text-gray-800 font-bold text-base md:text-lg">Sabado 16 de Abril del 2026</p>
+              <p className="text-gray-800 font-bold text-base md:text-lg">Sabado 25 de Abril del 2026</p>
             </div>
           </div>
 
