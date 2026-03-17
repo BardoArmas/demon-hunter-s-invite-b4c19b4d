@@ -15,6 +15,7 @@ const Index = () => {
   const [videoFailed, setVideoFailed] = useState(false);
   const [videoAutoPlay, setVideoAutoPlay] = useState(true);
   const [prefetchedVideoSrc, setPrefetchedVideoSrc] = useState<string | null>(null);
+  const [isPrefetchingVideo, setIsPrefetchingVideo] = useState(false);
   const canvasRef = useBalloonsCanvas(step === 'card' || step === 'welcome');
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -38,18 +39,25 @@ const Index = () => {
     const effectiveType = connection?.effectiveType ?? '';
     const shouldPrefetch = !(connection?.saveData || effectiveType.includes('2g') || effectiveType.includes('3g'));
 
-    if (!shouldPrefetch) return;
+    if (!shouldPrefetch) {
+      setIsPrefetchingVideo(false);
+      return;
+    }
     if (prefetchedVideoSrc) return;
 
     const timeoutId = window.setTimeout(() => {
+      setIsPrefetchingVideo(true);
       fetch(vidMp4)
         .then((r) => r.blob())
         .then((blob) => {
           const objectUrl = URL.createObjectURL(blob);
           prefetchedObjectUrlRef.current = objectUrl;
           setPrefetchedVideoSrc(objectUrl);
+          setIsPrefetchingVideo(false);
         })
-        .catch(() => {});
+        .catch(() => {
+          setIsPrefetchingVideo(false);
+        });
     }, 900);
 
     return () => window.clearTimeout(timeoutId);
@@ -178,6 +186,11 @@ const Index = () => {
               <p className="text-xl md:text-2xl text-[#6A5ACD] animate-pulse">
                 Presione para ver su invitación ✨
               </p>
+              {isPrefetchingVideo && (
+                <p className="text-sm md:text-base text-[#8A2BE2] font-semibold mt-2 animate-pulse">
+                  Cargando video…
+                </p>
+              )}
             </div>
             
             <button 
